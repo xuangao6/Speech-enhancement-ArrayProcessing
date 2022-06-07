@@ -1,0 +1,16 @@
+% A = zeros(2,1,2);
+% A(:,:,1) = [1 2]';
+% A(:,:,2) = [3 4]'
+clc
+clear all
+M=3;
+Delta=1/2;
+for tea = -90:1:90
+   c = (1:M);
+    for ff = 1:M
+        phi(ff,tea+91) = 2*pi*Delta*sin(tea).*c(1,ff);
+    end    
+end
+
+A = exp(i*phi);
+WH = pinv(A);
