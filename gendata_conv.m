@@ -1,7 +1,7 @@
-function x = gendata_conv(s,P,N,sigma)
+function [x,X,H,S] = gendata_conv(s,P,N,sigma)
 % construct the sequence x
 % s: Ns*1
-Ns = 5;
+Ns = 300;
 
 % generate H
 L = N-Ns+1;
@@ -27,7 +27,8 @@ end
 % generate X
 X = zeros(P,N);
 X = H*S;
-
+noise = sigma*sqrt(1/2)*(randn(P,N)+1j*randn(P,N));
+X = X + noise;
 % generate xx
 x = zeros(P*N,1);
 for mm = 1:N

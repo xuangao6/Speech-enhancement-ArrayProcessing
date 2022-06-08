@@ -4,52 +4,41 @@
 clc
 clear all
 
-P = 4;
-N = 500;
-sigma = 0;
-%% Signal Model - 1
+
+%% Signal Model 
 % generate s matrix
-Ns = 5;
+Ns = 300;
 s = zeros(Ns,1);
 s_i = [1/(2^(1/2))+i/(2^(1/2)), -1/(2^(1/2))+i/(2^(1/2)), -1/(2^(1/2))-i/(2^(1/2)), 1/(2^(1/2))-i/(2^(1/2))]';
 for i = 1:Ns
     s(i) = s_i(randi([1,4],1));
 end
-
-% generate H
-L = 3;
-H = zeros(P,L);
-
-for k = 0:(L-1)
-    for pp = 1:P
-    if ( ((k+(pp-1)/P)/(L-1/P)) >= 0 && ((k+(pp-1)/P)/(L-1/P)) <=0.25) || (((k+(pp-1)/P)/(L-1/P)) >= 0.5 && ((k+(pp-1)/P)/(L-1/P)) <=0.75)
-        h = 1;
-    elseif (((k+(pp-1)/P)/(L-1/P)) >= 0.25 && ((k+(pp-1)/P)/(L-1/P)) <=0.5) || (((k+(pp-1)/P)/(L-1/P)) >= 0.75 && ((k+(pp-1)/P)/(L-1/P)) <=1 )
-        h = -1;
-    end
-    H(pp,k+1) = h;
-    end
-end
-
-% genetate S
-S = zeros(L,N);
-for ss = 1:L
-%     for nn = 1:N
-        S(ss,(1:Ns)) = s(1:Ns,:);
-%     end
-end
-
-%% Signal Model - 2
+% generate x
 P = 4;
 N = 500;
+L = N-Ns+1;
 sigma = 0;
+[x,X,H,S] = gendata_conv(s,P,N,sigma);
 
+chi = zeros(2*P,N-1); % \chi is 2 symbol periods
+chi(1:P,:) = X(1:P,1:N-1);
+chi((P+1):2*P,:) = X(1:P,2:N);
+rank_chi = rank(chi); % the rank of chi is 2P
+%% Zero-forcing and Wiener equalizer
+Hm = zeros(2*P,L+1);
+Hm_1 = [zeros(P,1), H];
+Hm_2 = [H, zeros(P,1)];
+Hm = [Hm_1;Hm_2];
+WH_zf = pinv(Hm); % zero-forcing
+wh_zf = WH_zf(1,:);
+ss = wh_zf*chi;
+ahH = wh_zf*Hm;
 
+figure(1)
+plot(real(ahH),imag(ahH),'ro');
+grid on
 
-%% Signal Model - 3
-
-
-
-
-
+figure(2)
+plot(real(ss),imag(ss),'ro');
+grid on
 

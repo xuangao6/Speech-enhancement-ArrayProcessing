@@ -1,4 +1,4 @@
-function [theta,f] = joint(X,d,m)
+function [theta,f,Jxphi_part] = joint(X,d,m)
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
 [M,N] = size(X);

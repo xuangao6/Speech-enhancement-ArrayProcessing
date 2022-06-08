@@ -67,7 +67,7 @@ theta_est = esprit(X_,d, Delta);
 f_est = espritfreq(X_,d);
 %% joint estimation of directions and frequencies
 m = 6;
-[theta_est2,f_est2] = joint(X_,d,m);
+[theta_est2,f_est2,Jxphi_part] = joint(X_,d,m);
 %% comparison
 d_com = 2;
 M_com = 3;
