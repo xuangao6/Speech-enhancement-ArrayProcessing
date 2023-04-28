@@ -12,7 +12,7 @@ Please follow the steps below.
 ### **Step 1**
 
 ```
-git clone https://github.com/xuangao6/Avocado-Price.git
+git clone https://github.com/xuangao6/Speech-enhancement-ArrayProcessing.git
 ```
 For codes, open `Array_parameter_estimation-1.m`,`Array_parameter_estimation-2.m`,and `speech-enhancement.m`.    
 
